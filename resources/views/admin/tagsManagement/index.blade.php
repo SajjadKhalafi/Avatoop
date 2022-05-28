@@ -52,26 +52,32 @@
                                 @forelse($tags as $tag)
                                     <tr>
                                         <th scope="row">{{ $tags->firstItem() + $loop->index }}</th>
-
+                                        @php
+                                            $v = verta();
+                                        @endphp
                                         <td>{{ $tag->name }}</td>
-                                        <td>{{ Carbon\Carbon::parse($tag->created_at)->DiffForHumans() }}</td>
-                                        <td>{{ Carbon\Carbon::parse($tag->updated_at)->DiffForHumans() }}</td>
+                                        <td>{{ Verta::createTimestamp($tag->created_at)->formatDifference() }}</td>
+                                        @if ($tag->updated_at != null)
+                                            <td>{{ Verta::createTimestamp($tag->updated_at)->formatDifference() }}</td>
+                                        @else
+                                            <td><p class="text-secondary">آپدیت نشده</p></td>
+                                        @endif
                                         {{-- <td>
                                         {!! Form::open(['route'=>['user.destroy','id'=>$tag->id],'method'=>'delete']) !!}
                                         {!! Form::submit('delete',['class'=>'btn btn-danger']) !!}
                                         {!! Form::close() !!}
                                     </td> --}}
                                         <td>
-                                            <a href="{{ route('tag.edit' , ['id' => $tag->id]) }}"
+                                            <a href="{{ route('tag.edit', ['id' => $tag->id]) }}"
                                                 class="btn btn-info">Edit</a>
                                         </td>
                                         <td>
                                             {{-- <a href="{{ route('' , ['id' => $tag->id]) }}"
                                                 onclick="return confirm('با حذف این برچسب موافقید؟')"
                                                 class="btn btn-danger">Delete</a> --}}
-                                                {!! Form::open(['route'=>['tag.destroy','id'=>$tag->id],'method'=>'delete']) !!}
-                                                {!! Form::submit('delete',['class'=>'btn btn-danger' , 'onclick' => 'return confirm("از خذف این برچسب مطمئنید؟")']) !!}
-                                                {!! Form::close() !!}
+                                            {!! Form::open(['route' => ['tag.destroy', 'id' => $tag->id], 'method' => 'delete']) !!}
+                                            {!! Form::submit('delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("از خذف این برچسب مطمئنید؟")']) !!}
+                                            {!! Form::close() !!}
                                         </td>
                                     </tr>
                                 @empty
@@ -82,7 +88,7 @@
                             </tbody>
                         </table>
                         <span class="d-flex justify-content-center">
-                        {{ $tags->links() }}
+                            {{ $tags->links() }}
                         </span>
                     </div>
                 </div>

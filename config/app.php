@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Tehran',
 
     /*
     |--------------------------------------------------------------------------
@@ -183,6 +183,7 @@ return [
          * collective Service Providers
          * */
         \Collective\Html\HtmlServiceProvider::class,
+        Hekmatinasser\Verta\Laravel\VertaServiceProvider::class,
     ],
 
     /*
@@ -241,6 +242,7 @@ return [
 
         'Form' => \Collective\Html\FormFacade::class,
         'Html' => \Collective\Html\HtmlFacade::class,
+        'Verta' => Hekmatinasser\Verta\Verta::class,
 
     ],
 
