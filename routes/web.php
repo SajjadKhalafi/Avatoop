@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PlayerManagementController;
 use App\Http\Controllers\Admin\PositionsController;
 use App\Http\Controllers\Admin\TeamManagementController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\TagController;
 use App\Http\Livewire\Admin\Dashboard\AdminDashboardComponent;
 use App\Http\Livewire\User\Dashboard\UserDashboardcomponent;
 use App\Http\Controllers\RoleController;
@@ -24,13 +25,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, 'index']);
 
-Route::middleware(['auth', 'verified','role:admin|user'])->group(function(){
+Route::middleware(['auth', 'verified', 'role:admin|user'])->group(function () {
 
-    Route::get('/admin/dashboard',[AdminController::class , 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // player management
     Route::get('/admin/players', [PlayerManagementController::class, 'index'])->name('admin.players');
-    Route::get('/admin/players/add', [PlayerManagementController::class , 'add'])->name('admin.players.add');
+    Route::get('/admin/players/add', [PlayerManagementController::class, 'add'])->name('admin.players.add');
     Route::get('/admin/players/edit/{id}', [PlayerManagementController::class, 'edit'])->name('admin.players.edit');
 
 
@@ -38,15 +39,26 @@ Route::middleware(['auth', 'verified','role:admin|user'])->group(function(){
     Route::get('/admin/teams', [TeamManagementController::class, 'index'])->name('admin.teams');
     Route::get('/admin/teams/add', [TeamManagementController::class, 'add'])->name('admin.teams.add');
     Route::get('/admin/teams/{id}/edit', [TeamManagementController::class, 'edit'])->name('admin.teams.edit');
-    Route::get('/admin/teams/{id}/players',[TeamManagementController::class,'showPlayers'])->name('admin.team.players');
+    Route::get('/admin/teams/{id}/players', [TeamManagementController::class, 'showPlayers'])->name('admin.team.players');
 
     //position management
-    Route::get('/admin/positions',[PositionsController::class, 'index'])->name('admin.positions');
+    Route::get('/admin/positions', [PositionsController::class, 'index'])->name('admin.positions');
+
+    // tag controller
+    // Route::get('/admin/tag/all', [TagController::class, 'AllTag'])->name('all.tag');
+
+    // Route::post('/admin/tag/add', [TagController::class, 'AddTag'])->name('add.tag');
+
+    // Route::get('/admin/tag/edit/{id}', [TagController::class, 'Edit'])->name('edit.tag');
+
+    // Route::put('/admin/tag/update/{id}', [TagController::class, 'Update'])->name('update.tag');
+
+    // Route::get('/admin/tag/delete/{id}', [TagController::class, 'Delete']);
 });
 
-Route::middleware(['auth', 'verified','role:admin|user'])->prefix('admin/')->group(function(){
-    Route::resource('/role',RoleController::class)->parameters(['role'=>'id']);
-    Route::resource('/permission',\App\Http\Controllers\PermissionController::class)->parameters(['permission'=>'id']);
-    Route::resource('/user',\App\Http\Controllers\AdminCreateUser::class)->parameters(['user'=>'id']);
+Route::middleware(['auth', 'verified', 'role:admin|user'])->prefix('admin/')->group(function () {
+    Route::resource('/role', RoleController::class)->parameters(['role' => 'id']);
+    Route::resource('/permission', \App\Http\Controllers\PermissionController::class)->parameters(['permission' => 'id']);
+    Route::resource('/user', \App\Http\Controllers\AdminCreateUser::class)->parameters(['user' => 'id']);
+    Route::resource('/tag', \App\Http\Controllers\TagController::class)->parameters(['tag' => 'id']);
 });
-
